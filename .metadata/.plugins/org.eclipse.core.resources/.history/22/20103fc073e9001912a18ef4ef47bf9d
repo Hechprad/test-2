@@ -1,0 +1,49 @@
+package br.com.sciensa.corujaoapi.model;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import javax.validation.Valid;
+
+import org.springframework.validation.annotation.Validated;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+public class ResponseError {
+	
+	@JsonProperty("code")
+	private Integer code = null;
+
+	@JsonProperty("type")
+	private String type = null;
+
+	@JsonProperty("messages")
+	@Valid
+	private List<String> messages = null;
+
+	public Integer getCode() {
+		return code;
+	}
+
+	public void setCode(Integer code) {
+		this.code = code;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public List<String> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<String> messages) {
+		this.messages = messages;
+	}
+}
