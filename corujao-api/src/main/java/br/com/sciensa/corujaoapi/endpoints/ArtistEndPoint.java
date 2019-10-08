@@ -52,13 +52,11 @@ public class ArtistEndPoint {
 
     @GetMapping(value = "/artists")
     public ResponseEntity<Page<Artist>> listartists(@Valid @RequestParam(value = "page", required = false, defaultValue="1") Integer page, @Valid @RequestParam(value = "size", required = false, defaultValue="10") Integer size, @Valid @RequestParam(value = "search", required = false) String search, Pageable pageable){
-    	if(search != null) { return searchDescription(search,  pageable); }
+    	if(search != null) { return searchName(search,  pageable); }
     	return new ResponseEntity<Page<Artist>>(repository.findAll(pageable), HttpStatus.OK);
     };
 
-    public ResponseEntity<Page<Artist>> searchDescription(String search, Pageable pageable) {
-		return new ResponseEntity<Page<Artist>>(buscaArtistPeloNome(search), HttpStatus.OK);
-	}
+    
     
     @GetMapping(value = "/artists/{artistId}/filmography")
     public ResponseEntity<List<Movie>> getFilmography(Long artistId) {
@@ -70,7 +68,8 @@ public class ArtistEndPoint {
     	return new ResponseEntity<Artist>(update(artistId, artist), HttpStatus.CREATED);
     };
     
-    private Page<Artist> buscaArtistPeloNome(String search) {
+    
+    private ResponseEntity<Page<Artist>> searchName(String search, Pageable pageable) {
     	Iterable<Artist> artists = repository.findAll();
 
 		List<Artist> artistsFiltrados = new ArrayList<Artist>();
@@ -80,9 +79,9 @@ public class ArtistEndPoint {
 				artistsFiltrados.add(artist);
 		});
 
-		// convertento List para page
-		final Page<Artist> page = new PageImpl<>(artistsFiltrados);
-		return page;
+		// convertendo List para page
+		Page<Artist> page = new PageImpl<>(artistsFiltrados, pageable, artistsFiltrados.size());
+		return new ResponseEntity<Page<Artist>>(page, HttpStatus.OK);
 	}
 
     private static String removeAcento(String str) {

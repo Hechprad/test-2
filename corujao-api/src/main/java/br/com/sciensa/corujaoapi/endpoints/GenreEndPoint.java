@@ -51,17 +51,13 @@ public class GenreEndPoint {
     	return new ResponseEntity<Page<Genre>>(repository.findAll(pageable), HttpStatus.OK);
     };
 
-    public ResponseEntity<Page<Genre>> searchDescription(String search, Pageable pageable) {
-		return new ResponseEntity<Page<Genre>>(buscaGenrePeloTitulo(search), HttpStatus.OK);
-	}
-    
     @PutMapping(value = "/genres/{genreId}")
     public ResponseEntity<?> updateGenre(@PathVariable("genreId") Long genreId, @Valid @RequestBody Genre genre){
     	return new ResponseEntity<Genre>(update(genreId, genre), HttpStatus.CREATED);
     };
     
-    private Page<Genre> buscaGenrePeloTitulo(String search) {
-		Iterable<Genre> genres = repository.findAll();
+    private ResponseEntity<Page<Genre>> searchDescription(String search, Pageable pageable) {
+    	Iterable<Genre> genres = repository.findAll();
 		List<Genre> genresFiltrados = new ArrayList<Genre>();
 
 		genres.forEach(genre -> {
@@ -69,11 +65,11 @@ public class GenreEndPoint {
 				genresFiltrados.add(genre);
 		});
 
-		// convertento List para page
-		final Page<Genre> page = new PageImpl<>(genresFiltrados);
-		return page;
+		// convertendo List para page
+		Page<Genre> page = new PageImpl<>(genresFiltrados, pageable, genresFiltrados.size());
+		return new ResponseEntity<Page<Genre>>(page, HttpStatus.OK);
 	}
-
+    
     private static String removeAcento(String str) {
 		str = Normalizer.normalize(str, Normalizer.Form.NFD);
 		str = str.replaceAll("[^\\p{ASCII}]", "");
