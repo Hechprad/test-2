@@ -1,0 +1,7 @@
+package br.com.sciensa.corujaoapi.repository;
+
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import br.com.sciensa.corujaoapi.model.Artist;
+
+public interface ArtisRepository extends PagingAndSortingRepository<Artist, Long>{}
