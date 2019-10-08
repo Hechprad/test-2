@@ -1,5 +1,0 @@
-package br.com.sciensa.corujaoapi.repository;
-
-public class GenreRepository {
-
-}

@@ -1,9 +1,0 @@
-package br.com.sciensa.corujaoapi.repository;
-
-import org.springframework.data.repository.CrudRepository;
-
-import br.com.sciensa.corujaoapi.model.Genre;
-
-public class GenreRepository extends CrudRepository<Genre, Long>{
-
-}
