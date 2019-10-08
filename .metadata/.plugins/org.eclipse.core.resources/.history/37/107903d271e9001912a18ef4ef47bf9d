@@ -1,0 +1,5 @@
+package br.com.sciensa.corujaoapi.models;
+
+public class Movie {
+
+}
