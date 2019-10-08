@@ -1,1 +1,1 @@
-# Segunda API Corujao desenvolvida sem swagger e com spring spring initializr
+# Segunda API Corujao desenvolvida sem swagger e com spring initializr
